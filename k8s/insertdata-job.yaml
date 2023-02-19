@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: insertdata
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: tlinux/miniapp
+        name: insertdata
+        env:
+        - name: DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret-config
+              key: password
+        - name: DBUSERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: dbusername
+              name: miniapp
+        - name: DBHOST
+          valueFrom:
+            configMapKeyRef:
+              key: dbhost
+              name: miniapp
+        - name: DBPORT
+          valueFrom:
+            configMapKeyRef:
+              key: dbport
+              name: miniapp
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: miniapp
+      restartPolicy: Never

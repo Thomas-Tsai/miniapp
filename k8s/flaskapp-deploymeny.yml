@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskapp
+spec:
+  replicas: 1
+  selector:
+     matchLabels:
+       app: flaskapp
+  template:
+    metadata:
+      labels:
+        app: flaskapp
+    spec:
+      containers:
+      - name: flaskapp
+        image: tlinux/flaskapp:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret-config
+              key: password
+        - name: DBUSERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: dbusername
+              name: miniapp
+        - name: DBHOST
+          valueFrom:
+            configMapKeyRef:
+              key: dbhost
+              name: miniapp
+        - name: DBPORT
+          valueFrom:
+            configMapKeyRef:
+              key: dbport
+              name: miniapp
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: miniapp

@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  database: database
+  dbhost: postgres
+  dbport: "5432"
+  dbusername: postgres
+kind: ConfigMap
+metadata:
+  name: miniapp
+  namespace: default

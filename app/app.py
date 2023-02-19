@@ -42,8 +42,10 @@ def get_last_row():
 if __name__ == '__main__':
     print('Application started')
 
-    while True:
+    x = 1
+    while x <= 5:
+        x = x + 1
         add_new_row(random.randint(1,100000))
         print('The last value insterted is: {}'.format(get_last_row()))
-        time.sleep(50)
+        time.sleep(10)
 

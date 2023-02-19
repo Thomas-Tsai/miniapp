@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniapp
+spec:
+  replicas: 1
+  selector:
+     matchLabels:
+       app: miniapp
+  template:
+    metadata:
+      labels:
+        app: miniapp
+    spec:
+      containers:
+      - name: miniapp
+        image: tlinux/miniapp:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret-config
+              key: password
+        - name: DBUSERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: dbusername
+              name: miniapp
+        - name: DBHOST
+          valueFrom:
+            configMapKeyRef:
+              key: dbhost
+              name: miniapp
+        - name: DBPORT
+          valueFrom:
+            configMapKeyRef:
+              key: dbport
+              name: miniapp
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: database
+              name: miniapp
